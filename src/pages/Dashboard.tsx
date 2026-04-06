@@ -45,8 +45,8 @@ const Dashboard = () => {
               </div>
               <h3 className="mb-1 font-semibold text-card-foreground">{mod.title}</h3>
               <p className="mb-4 flex-1 text-sm text-muted-foreground">{mod.desc}</p>
-              <span className="text-sm font-medium text-primary group-hover:underline">
-                Ouvrir →
+              <span className="text-sm font-medium text-accent-foreground group-hover:underline">
+                <span className="text-accent">Ouvrir →</span>
               </span>
             </button>
           ))}
