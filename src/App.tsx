@@ -11,7 +11,6 @@ import ReunionsModule from "./pages/modules/ReunionsModule";
 import CommunicationModule from "./pages/modules/CommunicationModule";
 import ActivitesModule from "./pages/modules/ActivitesModule";
 import PresenceModule from "./pages/modules/PresenceModule";
-import StatsModule from "./pages/modules/StatsModule";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,7 +30,6 @@ const App = () => (
           <Route path="/module/communication/*" element={<CommunicationModule />} />
           <Route path="/module/activites/*" element={<ActivitesModule />} />
           <Route path="/module/presence/*" element={<PresenceModule />} />
-          <Route path="/module/statistiques/*" element={<StatsModule />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
