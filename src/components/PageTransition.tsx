@@ -1,17 +1,28 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import cuyLogo from "@/assets/cuy-logo.png";
+
+// Preload the logo so it's always ready
+const preload = new Image();
+preload.src = cuyLogo;
 
 const PageTransition = () => {
   const location = useLocation();
   const [visible, setVisible] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
+    // Skip the very first render (page load)
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
     setVisible(true);
     setFadeOut(false);
-    const t1 = setTimeout(() => setFadeOut(true), 600);
-    const t2 = setTimeout(() => setVisible(false), 1000);
+    const t1 = setTimeout(() => setFadeOut(true), 700);
+    const t2 = setTimeout(() => setVisible(false), 1100);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [location.pathname]);
 
@@ -28,6 +39,8 @@ const PageTransition = () => {
             src={cuyLogo}
             alt="CUY"
             className="relative h-36 w-36 rounded-3xl object-contain drop-shadow-2xl"
+            loading="eager"
+            decoding="sync"
           />
         </div>
         <div className="text-center">
