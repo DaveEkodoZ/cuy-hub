@@ -23,11 +23,11 @@ const PageTransition = () => {
     >
       <div className="relative flex flex-col items-center gap-4 animate-scale-in">
         <div className="relative">
-          <div className="absolute inset-0 rounded-2xl bg-primary/20 blur-xl animate-pulse" />
+          <div className="absolute inset-0 rounded-3xl bg-primary/20 blur-2xl animate-pulse" />
           <img
             src={cuyLogo}
             alt="CUY"
-            className="relative h-20 w-20 rounded-2xl object-contain drop-shadow-lg"
+            className="relative h-36 w-36 rounded-3xl object-contain drop-shadow-2xl"
           />
         </div>
         <div className="text-center">
