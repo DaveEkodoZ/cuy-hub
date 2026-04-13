@@ -327,6 +327,14 @@ const CalendarView = ({ reunions }: { reunions: Reunion[] }) => {
 
   const reunionDates = new Set(reunions.map((r) => r.date));
 
+  const getReunionsForDate = (date: Date) => {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    const dateStr = `${y}-${m}-${d}`;
+    return reunions.filter((r) => r.date === dateStr);
+  };
+
   const handleSelect = (date: Date | undefined) => {
     if (!date) return;
     setSelectedDate(date);
@@ -336,11 +344,18 @@ const CalendarView = ({ reunions }: { reunions: Reunion[] }) => {
     navigate(`/module/reunions/jour/${y}-${m}-${d}`);
   };
 
+  const today = new Date();
+  const upcomingReunions = reunions
+    .filter((r) => r.date >= today.toISOString().slice(0, 10) && r.statut === "À venir")
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .slice(0, 5);
+
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-bold text-foreground">Calendrier des réunions</h2>
-      <div className="flex justify-center">
-        <div className="rounded-xl border bg-card p-6 shadow-card">
+      <div className="grid gap-6 lg:grid-cols-3">
+        {/* Calendar - takes 2 columns */}
+        <div className="lg:col-span-2 rounded-2xl border bg-card p-8 shadow-card">
           <Calendar
             mode="single"
             selected={selectedDate}
@@ -353,10 +368,39 @@ const CalendarView = ({ reunions }: { reunions: Reunion[] }) => {
                 return reunionDates.has(`${y}-${m}-${d}`);
               },
             }}
-            modifiersClassNames={{ hasReunion: "bg-primary/20 text-primary font-bold" }}
-            className="scale-110"
+            modifiersClassNames={{ hasReunion: "!bg-primary/20 !text-primary !font-bold ring-2 ring-primary/30" }}
+            className="w-full [&_.rdp-months]:w-full [&_.rdp-month]:w-full [&_.rdp-table]:w-full [&_.rdp-head_cell]:w-[14.28%] [&_.rdp-head_cell]:text-sm [&_.rdp-head_cell]:font-semibold [&_.rdp-cell]:w-[14.28%] [&_.rdp-cell]:h-14 [&_.rdp-day]:h-12 [&_.rdp-day]:w-12 [&_.rdp-day]:text-base [&_.rdp-caption_label]:text-lg [&_.rdp-caption_label]:font-bold [&_.rdp-nav_button]:h-9 [&_.rdp-nav_button]:w-9"
           />
-          <p className="mt-4 text-center text-sm text-muted-foreground">Cliquez sur un jour pour voir les réunions programmées</p>
+          <p className="mt-4 text-center text-sm text-muted-foreground">
+            🗓️ Cliquez sur un jour pour voir les réunions programmées — Les jours avec réunions sont surlignés en vert
+          </p>
+        </div>
+
+        {/* Upcoming sidebar */}
+        <div className="space-y-4">
+          <div className="rounded-2xl border bg-card p-5 shadow-card">
+            <h3 className="font-semibold text-card-foreground mb-4 flex items-center gap-2">
+              <CalendarCheck className="h-5 w-5 text-primary" />
+              Prochaines réunions
+            </h3>
+            {upcomingReunions.length === 0 ? (
+              <p className="text-sm text-muted-foreground">Aucune réunion à venir</p>
+            ) : (
+              <div className="space-y-3">
+                {upcomingReunions.map((r) => (
+                  <div key={r.id} className="rounded-lg border border-border/50 bg-muted/30 p-3 hover:bg-muted/50 transition-colors">
+                    <p className="font-medium text-sm text-card-foreground">{r.titre}</p>
+                    <p className="text-xs text-muted-foreground mt-1">📅 {r.date} · {r.heureDebut} - {r.heureFin}</p>
+                    <p className="text-xs text-muted-foreground">📍 {r.salle}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="rounded-2xl border bg-primary/5 p-5">
+            <p className="text-sm text-primary font-medium">💡 Astuce</p>
+            <p className="text-xs text-muted-foreground mt-1">Les jours surlignés en vert contiennent au moins une réunion. Cliquez pour en voir les détails.</p>
+          </div>
         </div>
       </div>
     </div>
