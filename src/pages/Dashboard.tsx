@@ -6,7 +6,6 @@ import {
   CalendarDays,
   Megaphone,
   Activity,
-  MapPin,
 } from "lucide-react";
 
 const modules = [
@@ -14,8 +13,7 @@ const modules = [
   { icon: Building2, title: "Gestion des ressources", desc: "Salles, matériel et calendrier de réservation", path: "/module/ressources" },
   { icon: CalendarDays, title: "Gestion des réunions", desc: "Planifier, inviter et rédiger les comptes rendus", path: "/module/reunions" },
   { icon: Megaphone, title: "Communication interne", desc: "Notes de service, activités et fil d'actualité", path: "/module/communication" },
-  { icon: Activity, title: "Activités & Notes de service", desc: "Événements, notes officielles et publications", path: "/module/activites" },
-  { icon: MapPin, title: "Présence des agents", desc: "Statut et localisation interne des agents", path: "/module/presence" },
+  { icon: Activity, title: "Annonces et activités", desc: "Événements, notes officielles et publications", path: "/module/activites" },
 ];
 
 const Dashboard = () => {
